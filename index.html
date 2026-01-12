@@ -1,4 +1,15 @@
-<style>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Wiam Bidan</title>
+    <!-- Import des polices Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <!-- Import FontAwesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
         :root {
             --primary: #2d3436;
             --accent: #e17055; /* Couleur terre cuite / moderne */
@@ -244,7 +255,7 @@
             transform: translateY(-2px);
         }
 
-        /* --- Bouton Redirection --- */
+        /* --- Bouton Télécharger --- */
         .download-btn-container {
             position: fixed;
             bottom: 30px;
@@ -265,6 +276,7 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            cursor: pointer;
         }
 
         .btn-download:hover {
@@ -277,7 +289,7 @@
         /* Impression propre */
         @media print {
             body { background: white; padding: 0; }
-            .cv-container { box-shadow: none; width: 100%; max-width: 100%; margin: 0; }
+            .cv-container { box-shadow: none; width: 100%; max-width: 100%; margin: 0; border-radius: 0; }
             .download-btn-container { display: none; }
             .skill-progress { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .left-column { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -306,11 +318,11 @@
                 <div class="section-title-left">Contact</div>
                 <div class="contact-item">
                     <i class="fas fa-phone-alt"></i>
-                    <span>06 00 00 00 00</span>
+                    <span>07 68 38 56 95</span>
                 </div>
                 <div class="contact-item">
                     <i class="fas fa-envelope"></i>
-                    <span>wiam.bidan@email.com</span>
+                    <span>bidanewiam05@email.com</span>
                 </div>
                 <div class="contact-item">
                     <i class="fas fa-map-marker-alt"></i>
@@ -374,8 +386,8 @@
 
                 <div class="timeline-item">
                     <div class="timeline-date">2023</div>
-                    <div class="timeline-title">Baccalauréat Sciences Économiques</div>
-                    <div class="timeline-desc">Lycée (Rabat) / Mention Bien</div>
+                    <div class="timeline-title">Baccalauréat sciences Physiques</div>
+                    <div class="timeline-desc">Lycée Oum Rabie / Mention Bien</div>
                 </div>
             </section>
 
@@ -395,11 +407,11 @@
         </main>
     </div>
 
-    <!-- Bouton de Redirection (Wiam_Bidane_CV.pdf) -->
+    <!-- Bouton de Téléchargement PDF -->
     <div class="download-btn-container">
-        <a href="https://votre-lien-ici.com" target="_blank" class="btn-download">
-            <i class="fas fa-external-link-alt"></i> Wiam_Bidane_CV.pdf
-        </a>
+        <button onclick="window.print()" class="btn-download">
+            <i class="fas fa-file-pdf"></i> Wiam_Bidane_CV.pdf
+        </button>
     </div>
 
 </body>
