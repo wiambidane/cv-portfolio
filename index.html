@@ -1,1 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiam_Bidane_CV</title>
+    <!-- Import des polices Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <!-- Import FontAwesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #2d3436;
+            --accent: #e17055; /* Couleur terre cuite / moderne */
+            --bg-light: #f9f9f9;
+            --text-grey: #636e72;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #fab1a0 0%, #e17055 100%);
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f2f5;
+            color: var(--primary);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        /* Container Principal style "Papier" */
+        .cv-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--white);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 35% 65%;
+            overflow: hidden;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        /* --- Colonne de Gauche (Infos & Contact) --- */
+        .left-column {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Initiales à la place de la photo */
+        .initials-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .initials {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--white);
+            font-weight: 700;
+            letter-spacing: -2px;
+        }
+
+        .contact-section {
+            text-align: left;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .contact-item i {
+            color: var(--accent);
+            width: 30px;
+            font-size: 1.2rem;
+        }
+
+        .section-title-left {
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-size: 1.1rem;
+            margin-top: 40px;
+        }
+
+        .skills-list {
+            list-style: none;
+            text-align: left;
+        }
+
+        .skill-item {
+            margin-bottom: 15px;
+        }
+
+        .skill-name {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .skill-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: var(--accent);
+            width: 0; /* Animé plus tard */
+            transition: width 1s ease;
+        }
+
+        .lang-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        /* --- Colonne de Droite (Contenu) --- */
+        .right-column {
+            padding: 50px;
+            background-color: var(--white);
+        }
+
+        .header-name {
+            margin-bottom: 40px;
+        }
+
+        .header-name h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--primary);
+        }
+
+        .header-name h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+            margin-left: 20px;
+        }
+
+        .timeline-item {
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px solid #eee;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .timeline-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .timeline-desc {
+            color: var(--text-grey);
+            font-size: 0.95rem;
+        }
+
+        .profile-text {
+            color: var(--text-grey);
+            margin-bottom: 40px;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        /* --- Badges de Compétences --- */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            background: #f0f2f5;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            border: 1px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* --- Bouton Télécharger --- */
+        .download-btn-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+        }
+
+        .btn-download {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-download:hover {
+            background: var(--white);
+            color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        /* Impression propre */
+        @media print {
+            body { background: white; padding: 0; }
+            .cv-container { box-shadow: none; width: 100%; max-width: 100%; margin: 0; }
+            .download-btn-container { display: none; }
+            .skill-progress { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .left-column { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+
+        /* Responsive Mobile */
+        @media (max-width: 768px) {
+            .cv-container { grid-template-columns: 1fr; }
+            .left-column { padding: 30px 20px; }
+            .right-column { padding: 30px 20px; }
+            .header-name h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cv-container" id="cv-content">
+        <!-- Colonne Gauche -->
+        <aside class="left-column">
+            <!-- Remplacement Photo par Initiales -->
+            <div class="initials-container">
+                <span class="initials">WB</span>
+            </div>
+
+            <div class="contact-section">
+                <div class="section-title-left">Contact</div>
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>0768385695</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>bidanewiam05@email.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Rabat, Maroc</span>
+                </div>
+            </div>
+
+            <div class="section-title-left">Logiciels</div>
+            <ul class="skills-list">
+                <li class="skill-item">
+                    <span class="skill-name">MS Office (Word/PPT)</span>
+                    <div class="skill-bar"><div class="skill-progress" style="width: 90%"></div></div>
+                </li>
+                <li class="skill-item">
+                    <span class="skill-name">Canva / Design</span>
+                    <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
+                </li>
+                <li class="skill-item">
+                    <span class="skill-name">Réseaux Sociaux</span>
+                    <div class="skill-bar"><div class="skill-progress" style="width: 95%"></div></div>
+                </li>
+            </ul>
+
+            <div class="section-title-left">Langues</div>
+            <ul class="lang-list" style="list-style: none; text-align: left;">
+                <li><span>Arabe</span> <span>Maternel</span></li>
+                <li><span>Français</span> <span>Courant</span></li>
+                <li><span>Anglais</span> <span>Intermédiaire</span></li>
+            </ul>
+
+            <div class="section-title-left">Intérêts</div>
+            <div class="tags-container">
+                <span class="tag" style="background: rgba(255,255,255,0.1); color: white;">Voyage</span>
+                <span class="tag" style="background: rgba(255,255,255,0.1); color: white;">Sport</span>
+                <span class="tag" style="background: rgba(255,255,255,0.1); color: white;">Innovation</span>
+            </div>
+        </aside>
+
+        <!-- Colonne Droite -->
+        <main class="right-column">
+            <header class="header-name">
+                <h1>Wiam Bidan</h1>
+                <h2>Marketing Digital & Commercial</h2>
+            </header>
+
+            <section>
+                <div class="section-title">Profil Professionnel</div>
+                <p class="profile-text">
+                    Étudiante dynamique en <strong>2ème année</strong> de Marketing Digital à l'EST Salé. Je suis une personne <strong>sérieuse, motivée et créative</strong>, toujours à la recherche de solutions <strong>innovantes</strong>. Dotée d'un excellent <strong>esprit d'équipe</strong>, je souhaite mettre mon énergie et mes compétences au service du développement digital et commercial de votre entreprise.
+                </p>
+            </section>
+
+            <section>
+                <div class="section-title">Formation</div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2023 - Présent</div>
+                    <div class="timeline-title">DUT en Marketing Digital et Commercial (2ème Année)</div>
+                    <div class="timeline-desc">École Supérieure de Technologie (EST), Salé</div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">2023</div>
+                    <div class="timeline-title">Baccalauréat Sciences Économiques</div>
+                    <div class="timeline-desc">Lycée  Oum Rabie / Mention Bien</div>
+                </div>
+            </section>
+
+            <section>
+                <div class="section-title">Compétences & Qualités</div>
+                <div class="tags-container">
+                    <span class="tag">Sérieuse</span>
+                    <span class="tag">Motivée</span>
+                    <span class="tag">Créative & Innovante</span>
+                    <span class="tag">Dynamique</span>
+                    <span class="tag">Esprit d'équipe</span>
+                    <span class="tag">Communication</span>
+                    <span class="tag">Adaptabilité</span>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Bouton Télécharger -->
+    <div class="download-btn-container">
+        <a href="#" onclick="window.print(); return false;" class="btn-download">
+            <i class="fas fa-download"></i> Télécharger CV Wiam Bidan
+        </a>
+    </div>
+
+</body>
+</html>
