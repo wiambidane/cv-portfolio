@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot OpenRouter Gratuit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .chat-container { height: calc(100vh - 160px); }
+        .message-user { background-color: #3b82f6; color: white; border-radius: 18px 18px 0 18px; }
+        .message-bot { background-color: #f3f4f6; color: #1f2937; border-radius: 18px 18px 18px 0; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans">
+
+    <div class="max-w-3xl mx-auto p-4 flex flex-col h-screen">
+        <!-- Header -->
+        <header class="bg-white shadow-sm p-4 rounded-t-xl border-b flex justify-between items-center">
+            <div class="flex items-center space-gap-3">
+                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">AI</div>
+                <div class="ml-3">
+                    <h1 class="text-lg font-bold text-gray-800">OpenRouter Chat</h1>
+                    <p class="text-xs text-green-500 flex items-center">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span> Connecté au modèle gratuit
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Chat Area -->
+        <div id="chat-box" class="chat-container bg-white p-6 overflow-y-auto flex flex-col space-y-4">
+            <!-- Message de bienvenue -->
+            <div class="flex justify-start">
+                <div class="message-bot p-4 max-w-[80%] shadow-sm">
+                    Bonjour ! Je suis un assistant propulsé par OpenRouter. Comment puis-je vous aider aujourd'hui ?
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="bg-white p-4 rounded-b-xl border-t">
+            <form id="chat-form" class="flex gap-2">
+                <input 
+                    type="text" 
+                    id="user-input" 
+                    placeholder="Tapez votre message ici..." 
+                    class="flex-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                    required
+                >
+                <button 
+                    type="submit" 
+                    id="send-btn"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center min-w-[100px]"
+                >
+                    Envoyer
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "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";
+        const MODEL = "google/gemini-2.0-pro-exp-02-05:free";
+        
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const chatBox = document.getElementById('chat-box');
+        const sendBtn = document.getElementById('send-btn');
+
+        // Historique de conversation (contexte)
+        let messages = [
+            { role: "system", content: "Tu es un assistant utile et concis." }
+        ];
+
+        function appendMessage(role, text) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `p-4 max-w-[80%] shadow-sm ${role === 'user' ? 'message-user' : 'message-bot'}`;
+            msgDiv.innerText = text;
+            
+            wrapper.appendChild(msgDiv);
+            chatBox.appendChild(wrapper);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function getAIResponse(userText) {
+            messages.push({ role: "user", content: userText });
+            
+            try {
+                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${API_KEY}`,
+                        "HTTP-Referer": window.location.href, // Requis par OpenRouter
+                        "X-Title": "Mon Chatbot Local", // Optionnel
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "model": MODEL,
+                        "messages": messages
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || "Erreur API");
+                }
+
+                const data = await response.json();
+                const aiText = data.choices[0].message.content;
+                
+                messages.push({ role: "assistant", content: aiText });
+                return aiText;
+
+            } catch (error) {
+                console.error("Erreur:", error);
+                return "Désolé, j'ai rencontré une erreur : " + error.message;
+            }
+        }
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            // UI : Ajouter message utilisateur
+            appendMessage('user', text);
+            userInput.value = '';
+            
+            // UI : Etat de chargement
+            sendBtn.disabled = true;
+            sendBtn.innerText = "Attente...";
+            const loadingId = "loading-" + Date.now();
+            appendMessage('bot', "En train de réfléchir...");
+            const lastMsgElement = chatBox.lastElementChild.querySelector('.message-bot');
+            lastMsgElement.id = loadingId;
+
+            // Appel API
+            const aiResponse = await getAIResponse(text);
+            
+            // Mise à jour UI
+            document.getElementById(loadingId).innerText = aiResponse;
+            sendBtn.disabled = false;
+            sendBtn.innerText = "Envoyer";
+        });
+    </script>
+</body>
+</html>
